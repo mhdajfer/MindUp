@@ -17,9 +17,11 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Alert, AlertDescription } from "@/components/ui/alert";
 import { EyeIcon, EyeOffIcon } from "lucide-react";
 import { axiosInstance } from "@/utils/axios";
+import { Response } from "../types/Response";
+import { AxiosError } from "axios";
+import { toast } from "sonner";
 
 // Define the form schema with zod
 const signupSchema = z
@@ -42,7 +44,6 @@ export default function SignupPage() {
   const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 
   const {
@@ -61,16 +62,22 @@ export default function SignupPage() {
 
   const onSubmit = async (data: SignupFormValues) => {
     setIsLoading(true);
-    setError(null);
+
+    const { confirmPassword, ...userData } = data;
 
     try {
-      const response = await axiosInstance.post("/user", data);
+      const { data }: Response = await axiosInstance.post("/user", {
+        userData,
+      });
 
-      // For demo purposes, we'll just redirect to the dashboard
-      // In a real app, you would register the user with your backend
-      router.push("/dashboard");
+      if (data.success) {
+        toast.success(data.message);
+        router.push("/login");
+      }
     } catch (err) {
-      setError("An error occurred during signup. Please try again.");
+      if (err instanceof AxiosError) toast.error(err.response?.data.error);
+      else toast.error("something went wront, try again later");
+      console.log(err);
     } finally {
       setIsLoading(false);
     }
@@ -88,11 +95,6 @@ export default function SignupPage() {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          {error && (
-            <Alert variant="destructive" className="mb-4">
-              <AlertDescription>{error}</AlertDescription>
-            </Alert>
-          )}
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="name">Full Name</Label>

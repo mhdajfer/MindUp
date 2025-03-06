@@ -1,12 +1,15 @@
 import express from "express";
+import { UserRepositoryImpl } from "../../infrastructure/repositories/userRepositoryImpl";
+import { UserServiceImpl } from "../../application/services/userServicesImpl";
+import { UserController } from "../controllers/userController";
 
 const router = express.Router();
 
-router.post("/", (req, res) => {
-  console.log(req.body);
-});
-router.post("/login", (req, res) => {
-  console.log(req.body);
-});
+const userRepository = new UserRepositoryImpl();
+const userService = new UserServiceImpl(userRepository);
+const userController = new UserController(userService);
+
+router.post("/", userController.signup.bind(userController));
+router.post("/login", userController.login.bind(userController));
 
 export default router;

@@ -17,8 +17,11 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Alert, AlertDescription } from "@/components/ui/alert";
 import { EyeIcon, EyeOffIcon } from "lucide-react";
+import { Response } from "../types/Response";
+import { axiosInstance } from "@/utils/axios";
+import { AxiosError } from "axios";
+import { toast } from "sonner";
 
 const loginSchema = z.object({
   email: z.string().email({ message: "Please enter a valid email address" }),
@@ -32,7 +35,6 @@ type LoginFormValues = z.infer<typeof loginSchema>;
 export default function LoginPage() {
   const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
-  const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 
   const {
@@ -49,17 +51,24 @@ export default function LoginPage() {
 
   const onSubmit = async (data: LoginFormValues) => {
     setIsLoading(true);
-    setError(null);
+
+    const { email, password } = data;
 
     try {
-      // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+      const { data }: Response = await axiosInstance.post("/user/login", {
+        email,
+        password,
+      });
 
-      // For demo purposes, we'll just redirect to the dashboard
-      // In a real app, you would validate credentials with your backend
-      router.push("/dashboard");
+      if (data.success) {
+        router.push("/dashboard");
+      }
     } catch (err) {
-      setError("Invalid email or password. Please try again.");
+      if (err instanceof AxiosError) {
+        toast.error(err.response?.data.error);
+      } else {
+        toast.error("something went wrong, try again later");
+      }
     } finally {
       setIsLoading(false);
     }
@@ -77,11 +86,6 @@ export default function LoginPage() {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          {error && (
-            <Alert variant="destructive" className="mb-4">
-              <AlertDescription>{error}</AlertDescription>
-            </Alert>
-          )}
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="email">Email</Label>
