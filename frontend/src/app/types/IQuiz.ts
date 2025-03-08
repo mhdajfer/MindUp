@@ -1,15 +1,15 @@
-export interface Question {
-  questionText: string;
-  options: { text: string; isCorrect: boolean }[];
-}
-
 export interface IQuiz {
   _id?: string;
-  title: string;
-  description?: string;
   category: string;
-  questions: Question[];
-  createdBy: string;
+  question: string;
+  options: { text: string; isCorrect: boolean }[];
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+export interface Question {
+  question: string;
+  options: { text: string; isCorrect: boolean }[];
   createdAt: Date;
   updatedAt: Date;
 }

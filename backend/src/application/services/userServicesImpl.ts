@@ -4,6 +4,7 @@ import { CustomError } from "../../shared/error/customError";
 import { IUser } from "../../shared/Types/IUser";
 import { StatusCode } from "../../shared/Types/StatusCode";
 import bcrypt from "bcryptjs";
+import { AuthUtils } from "../../shared/utils/authUtils";
 
 export class UserServiceImpl implements UserService {
   constructor(private _userRepository: UserRepository) {}
@@ -20,9 +21,14 @@ export class UserServiceImpl implements UserService {
     }
   }
 
-  async login(email: string, password: string): Promise<IUser> {
+  async login(
+    email: string,
+    password: string
+  ): Promise<{ user: IUser; accessToken: string }> {
     try {
       const user = await this._userRepository.findOne(email);
+
+      if (!user) throw new CustomError("User not found", StatusCode.NOT_FOUND);
 
       const isValid = await bcrypt.compare(password, user.password);
 
@@ -30,9 +36,13 @@ export class UserServiceImpl implements UserService {
         throw new CustomError("Incorrect Password", StatusCode.UNAUTHORIZED);
       }
 
-      
+      const accessToken = AuthUtils.generateToken({
+        _id: user._id,
+        email: user.email,
+        fullName: user.name,
+      });
 
-      return user;
+      return { user, accessToken };
     } catch (error) {
       throw error;
     }

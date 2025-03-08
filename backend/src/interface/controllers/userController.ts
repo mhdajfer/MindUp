@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import { UserService } from "../../domain/services/userService";
 import { IUser } from "../../shared/Types/IUser";
 import { StatusCode } from "../../shared/Types/StatusCode";
+import { CustomError } from "../../shared/error/customError";
 
 export class UserController {
   constructor(private _userService: UserService) {}
@@ -27,13 +28,23 @@ export class UserController {
     try {
       const { email, password }: { email: string; password: string } = req.body;
 
+      if (!email || !password) {
+        throw new CustomError(
+          "Please provide email and password",
+          StatusCode.BAD_REQUEST
+        );
+      }
 
-      const user = await this._userService.login(email, password);
+      const { user, accessToken } = await this._userService.login(
+        email,
+        password
+      );
 
       res.status(200).json({
         success: true,
         message: "user successfully logged in",
-        data: user,
+        data: accessToken,
+        user,
       });
     } catch (error) {
       console.log("error while logging in", error);

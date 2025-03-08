@@ -3,8 +3,6 @@ import { IQuiz } from "../../shared/Types/IQuiz";
 
 const QuizSchema = new Schema(
   {
-    title: { type: String, required: true },
-    description: { type: String },
     category: { type: String, required: true },
     question: { type: String, required: true },
     options: [
@@ -13,8 +11,6 @@ const QuizSchema = new Schema(
         isCorrect: { type: Boolean, required: true },
       },
     ],
-
-    createdBy: { type: Schema.Types.ObjectId, ref: "User", required: true },
   },
   { timestamps: true }
 );

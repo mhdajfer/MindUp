@@ -9,6 +9,7 @@ import * as z from "zod";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import Cookies from "js-cookie";
 import {
   Card,
   CardContent,
@@ -22,6 +23,7 @@ import { Response } from "../types/Response";
 import { axiosInstance } from "@/utils/axios";
 import { AxiosError } from "axios";
 import { toast } from "sonner";
+import { IUser } from "../types/IUser";
 
 const loginSchema = z.object({
   email: z.string().email({ message: "Please enter a valid email address" }),
@@ -55,13 +57,18 @@ export default function LoginPage() {
     const { email, password } = data;
 
     try {
-      const { data }: Response = await axiosInstance.post("/user/login", {
+      const {
+        data,
+      }: {
+        data: { success: boolean; message: string; data: string; user: IUser };
+      } = await axiosInstance.post("/user/login", {
         email,
         password,
       });
 
       if (data.success) {
-        router.push("/dashboard");
+        Cookies.set("accessToken", data.data);
+        router.push(`${data.user.role === "admin" ? "/admin" : "/dashboard"}`);
       }
     } catch (err) {
       if (err instanceof AxiosError) {

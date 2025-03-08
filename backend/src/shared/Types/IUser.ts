@@ -1,6 +1,7 @@
-import { Schema } from "mongoose";
 
-export interface IUser extends Document {
+
+export interface IUser  {
+  _id: string;
   name: string;
   email: string;
   password: string;
@@ -8,7 +9,7 @@ export interface IUser extends Document {
   role: "user" | "admin";
   score: number;
   quizzesTaken: {
-    quizId: Schema.Types.ObjectId;
+    quizId: string;
     score: number;
     takenAt: Date;
   }[];

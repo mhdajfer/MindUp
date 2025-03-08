@@ -15,6 +15,8 @@ export class UserRepositoryImpl implements UserRepository {
   async findOne(email: string): Promise<IUser> {
     try {
       const userExist = await user.findOne({ email: email });
+
+      console.log(userExist, email);
       return userExist as IUser;
     } catch (error) {
       throw error;
