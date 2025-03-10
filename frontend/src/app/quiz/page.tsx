@@ -69,17 +69,21 @@ export default function PlayQuizPage() {
 
       setIsAnswerSubmitted(true);
 
-      if (currentQuestionIndex + 1 === 3) {
+      if (question._id) {
+        await submitQuiz(question._id, isCorrect);
+      }
+
+      if (currentQuestionIndex + 1 === 5) {
         const results = {
           quizTitle: `${
             category.charAt(0).toUpperCase() + category.slice(1)
           } Quiz`,
           score: score + (isCorrect ? 1 : 0),
-          totalQuestions: 3,
+          totalQuestions: 5,
           timeTaken: formatTime(timeLimit - timeRemaining),
-          accuracy: Math.round(((score + (isCorrect ? 1 : 0)) / 3) * 100),
+          accuracy: Math.round(((score + (isCorrect ? 1 : 0)) / 5) * 100),
           correctAnswers: score + (isCorrect ? 1 : 0),
-          incorrectAnswers: 3 - (score + (isCorrect ? 1 : 0)),
+          incorrectAnswers: 5 - (score + (isCorrect ? 1 : 0)),
           category: category,
           difficulty: "Medium",
           completedOn: new Date().toLocaleDateString("en-US", {
@@ -102,10 +106,6 @@ export default function PlayQuizPage() {
         setSelectedAnswer(null);
         setIsAnswerSubmitted(false);
         setTimeRemaining(timeLimit);
-
-        if (question._id) {
-          await submitQuiz(question._id, isCorrect);
-        }
 
         //next quiz
         await generateQuiz();
@@ -219,7 +219,7 @@ export default function PlayQuizPage() {
                     Question
                   </span>
                   <h2 className="text-xl font-bold">
-                    {currentQuestionIndex + 1} of {10}
+                    {currentQuestionIndex + 1} of {5}
                   </h2>
                 </div>
                 <div className="flex items-center gap-2">
@@ -266,12 +266,14 @@ export default function PlayQuizPage() {
                         return (
                           <Button
                             key={option.text}
-                            variant={isSelected ? "default" : "outline"}
-                            className={`h-auto py-4 px-6 justify-start text-left ${
+                            variant={"outline"}
+                            className={`h-auto py-4 px-6 justify-start text-left hover:bg-violet-50 cursor-pointer ${
                               isCorrect
                                 ? "bg-green-500 hover:bg-green-500 text-white"
                                 : isWrong
                                 ? "bg-red-500 hover:bg-red-500 text-white"
+                                : isSelected
+                                ? "bg-violet-200"
                                 : ""
                             }`}
                             onClick={() => handleAnswerSelect(option.text)}
@@ -289,7 +291,7 @@ export default function PlayQuizPage() {
                   </CardContent>
                   <CardFooter>
                     <Button
-                      className="w-full gap-2"
+                      className="w-full gap-2 bg-violet-900 rounded-md text-white hover:bg-violet-950 cursor-pointer"
                       onClick={() => handleAnswerSubmit(selectedAnswer)}
                       disabled={!selectedAnswer || isAnswerSubmitted}
                     >

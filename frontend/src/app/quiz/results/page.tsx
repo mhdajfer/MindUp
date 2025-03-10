@@ -110,7 +110,7 @@ export default function QuizResultsPage() {
   }, [animationComplete, quizResult]);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-violet-50 to-purple-100 dark:from-violet-950 dark:to-purple-900 pb-12">
+    <div className="min-h-screen bg-gradient-to-br from-violet-50 to-purple-100  pb-12">
       {/* Confetti effect for good scores */}
       {showConfetti && (
         <Confetti
@@ -132,8 +132,8 @@ export default function QuizResultsPage() {
       )}
 
       {/* Header */}
-      <header className="bg-white dark:bg-gray-900 shadow-lg border-b border-violet-200 dark:border-violet-800 relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-r from-violet-500/10 to-purple-500/10 dark:from-violet-500/20 dark:to-purple-500/20"></div>
+      <header className="bg-white shadow-lg border-b border-violet-200  relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-r from-violet-500/10 to-purple-500/10 "></div>
         <div className="container mx-auto px-4 py-6 relative">
           <div className="flex flex-col md:flex-row items-center justify-between">
             <div className="flex items-center mb-4 md:mb-0">
@@ -174,7 +174,7 @@ export default function QuizResultsPage() {
                   Quiz Results
                 </motion.h1>
                 <motion.p
-                  className="text-gray-600 dark:text-gray-400"
+                  className="text-gray-600 "
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ duration: 0.5, delay: 0.2 }}
@@ -196,7 +196,7 @@ export default function QuizResultsPage() {
               </Avatar>
               <div className="text-sm">
                 <p className="font-medium">John Doe</p>
-                <p className="text-gray-500 dark:text-gray-400">
+                <p className="text-gray-500 ">
                   Completed on {quizResult?.completedOn}
                 </p>
               </div>
@@ -205,7 +205,7 @@ export default function QuizResultsPage() {
         </div>
       </header>
 
-      <div className="container mx-auto px-4 py-8">
+      <div className="container mx-auto px-4 py-8 ">
         {/* Score Overview */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -213,10 +213,10 @@ export default function QuizResultsPage() {
           transition={{ duration: 0.6 }}
           className="mb-8"
         >
-          <Card className="overflow-hidden border-violet-200 dark:border-violet-800 shadow-lg">
-            <div className="bg-gradient-to-r from-violet-600 to-purple-600 p-1"></div>
+          <Card className="overflow-hidden border-violet-200 shadow-lg bg-white">
+            <div className="p-1"></div>
             <CardContent className="p-0">
-              <div className="grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-gray-200 dark:divide-gray-800">
+              <div className="grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-gray-200 ">
                 {/* Score Circle */}
                 <div className="p-6 flex flex-col items-center justify-center">
                   <div className="relative w-48 h-48 flex items-center justify-center">
@@ -257,7 +257,7 @@ export default function QuizResultsPage() {
                         <div className="text-4xl font-bold bg-gradient-to-r from-violet-600 to-purple-600 bg-clip-text text-transparent">
                           {quizResult?.score}/{quizResult?.totalQuestions}
                         </div>
-                        <div className="text-center text-gray-500 dark:text-gray-400 mt-1">
+                        <div className="text-center text-gray-500  mt-1">
                           {quizResult?.score &&
                             quizResult.totalQuestions &&
                             Math.round(
@@ -310,7 +310,7 @@ export default function QuizResultsPage() {
                             {quizResult?.timeTaken}
                           </span>
                         </div>
-                        <div className="w-full bg-gray-200 rounded-full h-2 dark:bg-gray-700">
+                        <div className="w-full bg-gray-200 rounded-full h-2 ">
                           <motion.div
                             className="bg-violet-500 h-2 rounded-full"
                             initial={{ width: 0 }}
@@ -335,7 +335,7 @@ export default function QuizResultsPage() {
                             {quizResult?.accuracy}%
                           </span>
                         </div>
-                        <div className="w-full bg-gray-200 rounded-full h-2 dark:bg-gray-700">
+                        <div className="w-full bg-gray-200 rounded-full h-2 ">
                           <motion.div
                             className="bg-green-500 h-2 rounded-full"
                             initial={{ width: 0 }}
@@ -360,7 +360,7 @@ export default function QuizResultsPage() {
                             {quizResult?.xpEarned} XP
                           </span>
                         </div>
-                        <div className="w-full bg-gray-200 rounded-full h-2 dark:bg-gray-700">
+                        <div className="w-full bg-gray-200 rounded-full h-2 ">
                           <motion.div
                             className="bg-orange-500 h-2 rounded-full"
                             initial={{ width: 0 }}
@@ -386,7 +386,7 @@ export default function QuizResultsPage() {
         >
           <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
             <Button
-              className="w-full sm:w-auto bg-gradient-to-r from-violet-600 to-purple-600 hover:from-violet-700 hover:to-purple-700"
+              className="text-white cursor-pointer w-full sm:w-auto bg-gradient-to-r from-violet-600 to-purple-600 hover:from-violet-700 hover:to-purple-700"
               size="lg"
               onClick={() => {
                 router.push("/quiz");
@@ -400,7 +400,7 @@ export default function QuizResultsPage() {
           <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
             <Button
               variant="outline"
-              className="w-full sm:w-auto border-violet-300 dark:border-violet-700"
+              className=" cursor-pointer  w-full sm:w-auto border-violet-300 "
               size="lg"
               onClick={() => {
                 router.push("/dashboard");

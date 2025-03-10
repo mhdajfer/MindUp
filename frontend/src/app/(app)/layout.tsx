@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
+import SideBar from "@/components/SideBar";
 
 export default function RootLayout({
   children,
@@ -23,5 +24,14 @@ export default function RootLayout({
   if (isLoading) {
     return <div>Loading...</div>;
   }
-  return <>{children}</>;
+  return (
+    <>
+      <div className="flex min-h-screen">
+        <div className="fixed h-screen">
+          <SideBar />
+        </div>
+        {children}
+      </div>
+    </>
+  );
 }
