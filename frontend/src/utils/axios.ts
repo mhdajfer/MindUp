@@ -1,7 +1,7 @@
 import axios from "axios";
 import Cookies from "js-cookie";
 
-const API = process.env.VITE_BACKEND_API;
+const API = process.env.NEXT_PUBLIC_BACKEND_API;
 
 if (!API) console.log("api not provided");
 
