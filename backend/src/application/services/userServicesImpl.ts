@@ -47,10 +47,19 @@ export class UserServiceImpl implements UserService {
       throw error;
     }
   }
-  findOne(email: string): Promise<IUser> {
-    throw new Error("Method not implemented.");
+  async findOne(email: string): Promise<IUser> {
+    try {
+       return await this._userRepository.findOne(email);
+    } catch (error) {
+      throw error;
+    }
   }
-  editUser(userData: Partial<IUser>): Promise<IUser> {
-    throw new Error("Method not implemented.");
+
+  async submitQuiz(quizId: string, userId: string, isCorrect: boolean): Promise<IUser> {
+    try {
+      return await this._userRepository.submitQuiz(quizId, userId, isCorrect);
+    } catch (error) {
+      throw error;
+    }
   }
 }

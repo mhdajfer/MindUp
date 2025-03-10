@@ -27,7 +27,6 @@ import {
 import { toast } from "sonner";
 import { axiosInstance } from "@/utils/axios";
 import { Response } from "../types/Response";
-import { IQuiz } from "../types/IQuiz";
 import { AxiosError } from "axios";
 
 // Define the form schema with zod
@@ -62,10 +61,6 @@ const categories = [
 
 export default function Page() {
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitStatus, setSubmitStatus] = useState<"success" | "error" | null>(
-    null
-  );
-  const [submitMessage, setSubmitMessage] = useState("");
 
   const {
     register,
@@ -94,7 +89,7 @@ export default function Page() {
   const onSubmit = async (_data: QuestionFormValues) => {
     try {
       setIsSubmitting(true);
-      setSubmitStatus(null);
+
 
       if (!_data.category || !_data.question || !_data.correctOption) {
         toast.warning("Please fill in all required fields");
@@ -121,7 +116,6 @@ export default function Page() {
         toast.success(data.message);
       }
 
-      setSubmitStatus("success");
       reset({
         question: "",
         category: _data.category,
@@ -133,10 +127,6 @@ export default function Page() {
         toast.error(err.response?.data.message);
       }
       console.error("Error submitting form:", err);
-      setSubmitStatus("error");
-      setSubmitMessage(
-        err instanceof Error ? err.message : "Failed to add question"
-      );
     } finally {
       setIsSubmitting(false);
     }

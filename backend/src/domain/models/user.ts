@@ -23,7 +23,7 @@ const userSchema = new Schema(
     quizzesTaken: [
       {
         quizId: { type: Types.ObjectId, ref: "Quiz" },
-        score: { type: Number, required: true },
+        score: { type: Boolean, required: true , default: false},
         takenAt: { type: Date, default: Date.now },
       },
     ],

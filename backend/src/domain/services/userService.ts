@@ -7,5 +7,10 @@ export interface UserService {
     email: string,
     password: string
   ): Promise<{ user: IUser; accessToken: string }>;
-  editUser(userData: Partial<IUser>): Promise<IUser>;
+
+  submitQuiz(
+    quizId: string,
+    userId: string,
+    isCorrect: boolean
+  ): Promise<IUser>;
 }

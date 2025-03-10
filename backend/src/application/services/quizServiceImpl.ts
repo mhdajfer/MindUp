@@ -19,9 +19,9 @@ export class QuizServiceImpl implements QuizService {
     }
   }
 
-  async getOne(index?: number): Promise<IQuiz> {
+  async getOne(userId: string): Promise<IQuiz> {
     try {
-      return await this._quizRepository.getOne(index);
+      return await this._quizRepository.getOne(userId);
     } catch (error) {
       throw error;
     }

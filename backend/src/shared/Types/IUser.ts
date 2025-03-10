@@ -1,6 +1,6 @@
+import { IQuiz } from "./IQuiz";
 
-
-export interface IUser  {
+export interface IUser {
   _id: string;
   name: string;
   email: string;
@@ -9,8 +9,8 @@ export interface IUser  {
   role: "user" | "admin";
   score: number;
   quizzesTaken: {
-    quizId: string;
-    score: number;
+    quizId: string | IQuiz;
+    score: boolean;
     takenAt: Date;
   }[];
   createdAt: Date;

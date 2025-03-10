@@ -14,15 +14,30 @@ export class UserRepositoryImpl implements UserRepository {
 
   async findOne(email: string): Promise<IUser> {
     try {
-      const userExist = await user.findOne({ email: email });
+      const userExist = await user
+        .findOne({ email: email })
+        .populate("quizzesTaken.quizId");
 
-      console.log(userExist, email);
       return userExist as IUser;
     } catch (error) {
       throw error;
     }
   }
-  editUser(userData: Partial<IUser>): Promise<IUser> {
-    throw new Error("Method not implemented.");
+  async submitQuiz(
+    quizId: string,
+    userId: string,
+    isCorrect: boolean
+  ): Promise<IUser> {
+    try {
+      const updatedUser = await user.findOneAndUpdate(
+        { _id: userId },
+        { $push: { quizzesTaken: { quizId, score: isCorrect } } },
+        { new: true }
+      );
+
+      return updatedUser as IUser;
+    } catch (error) {
+      throw error;
+    }
   }
 }

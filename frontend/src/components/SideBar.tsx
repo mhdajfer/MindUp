@@ -10,14 +10,18 @@ import {
 } from "lucide-react";
 import { Button } from "./ui/button";
 import Link from "next/link";
-import Cookies from "js-cookie";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { userLogout } from "@/store/reducers/authReducer";
+import { RootState } from "@/store/store";
+import { useRouter } from "next/navigation";
 
 const SideBar = () => {
+  const dispatch = useDispatch();
   const router = useRouter();
 
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const user = useSelector((state: RootState) => state.auth.user);
   return (
     <div>
       <div className="min-h-screen hidden md:flex w-64 flex-col  border-r border-gray-200 ">
@@ -29,7 +33,7 @@ const SideBar = () => {
         <div className="flex-1 overflow-auto py-4 ">
           <nav className="space-y-1 px-2">
             <Link
-              href="/dashboard"
+              href={"/dashboard"}
               className="flex items-center px-3 py-2 text-sm font-medium rounded-md  "
             >
               <BarChart3 className="mr-3 h-5 w-5" />
@@ -42,26 +46,13 @@ const SideBar = () => {
               <Brain className="mr-3 h-5 w-5" />
               Quizzes
             </Link>
-            <Link
-              href="#"
-              className="flex items-center px-3 py-2 text-sm font-medium rounded-md text-gray-600 hover:bg-violet-50 hover:text-violet-700"
-            >
-              <Trophy className="mr-3 h-5 w-5" />
-              Leaderboard
-            </Link>
+
             <Link
               href="#"
               className="flex items-center px-3 py-2 text-sm font-medium rounded-md text-gray-600 hover:bg-violet-50 hover:text-violet-700"
             >
               <Clock className="mr-3 h-5 w-5" />
               History
-            </Link>
-            <Link
-              href="#"
-              className="flex items-center px-3 py-2 text-sm font-medium rounded-md text-gray-600 hover:bg-violet-50 hover:text-violet-700"
-            >
-              <Settings className="mr-3 h-5 w-5" />
-              Settings
             </Link>
           </nav>
         </div>
@@ -75,17 +66,17 @@ const SideBar = () => {
               <AvatarFallback>JD</AvatarFallback>
             </Avatar>
             <div className="ml-3">
-              <p className="text-sm font-medium">John Doe</p>
+              <p className="text-sm font-medium">{user?.name}</p>
               <p className="text-xs text-gray-500 dark:text-gray-400">
-                john@example.com
+                {user?.email}
               </p>
             </div>
           </div>
           <div>
             <LogOut
               onClick={() => {
-                Cookies.remove("accessToken");
-                router.push("/login");
+                dispatch(userLogout());
+                router.push('/login')
               }}
             />
           </div>

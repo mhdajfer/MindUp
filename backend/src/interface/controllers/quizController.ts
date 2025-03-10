@@ -3,6 +3,8 @@ import { QuizService } from "../../domain/services/quizService";
 import { StatusCode } from "../../shared/Types/StatusCode";
 import { IQuiz } from "../../shared/Types/IQuiz";
 import { CustomError } from "../../shared/error/customError";
+import { CustomRequest } from "../../shared/Types/CustomRequest";
+import { IUser } from "../../shared/Types/IUser";
 
 export class QuizController {
   constructor(private _quizService: QuizService) {}
@@ -31,11 +33,11 @@ export class QuizController {
     }
   }
 
-  async getOneQuiz(req: Request, res: Response, next: NextFunction) {
+  async getOneQuiz(req: CustomRequest, res: Response, next: NextFunction) {
     try {
-      const { index } = req.params;
+      const { _id } = req.user as IUser;
 
-      const quiz = await this._quizService.getOne(parseInt(index));
+      const quiz = await this._quizService.getOne(_id);
 
       res.status(StatusCode.OK).json({
         success: true,
