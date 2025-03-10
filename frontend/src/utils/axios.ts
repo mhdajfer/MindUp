@@ -1,10 +1,18 @@
 import axios from "axios";
 import Cookies from "js-cookie";
 
+const API = process.env.VITE_BACKEND_API;
+
+if (!API) console.log("api not provided");
+
 export const axiosInstance = axios.create({
-  baseURL: "http://localhost:4000/api",
+  baseURL: API,
   withCredentials: false,
 });
+// export const axiosInstance = axios.create({
+//   baseURL: "http://localhost:4000/api",
+//   withCredentials: false,
+// });
 
 axiosInstance.interceptors.request.use((config) => {
   const token = Cookies.get("accessToken");
