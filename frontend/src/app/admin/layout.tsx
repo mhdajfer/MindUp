@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
 import SideBar from "@/components/SideBar";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store/store";
 
 export default function RootLayout({
   children,
@@ -13,13 +15,15 @@ export default function RootLayout({
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(true);
 
+  const user = useSelector((state: RootState) => state.auth.user);
+
   useEffect(() => {
-    if (!Cookies.get("accessToken")) {
+    if (!Cookies.get("accessToken") && user?.role != "admin") {
       router.push("/login");
     } else {
       setIsLoading(false);
     }
-  }, [router]);
+  }, [router, user?.role]);
 
   if (isLoading) {
     return <div>Loading...</div>;

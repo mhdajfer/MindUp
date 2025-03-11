@@ -19,9 +19,14 @@ import { useEffect, useState } from "react";
 import { axiosInstance } from "@/utils/axios";
 import { Response } from "../../types/Response";
 import { format, parseISO } from "date-fns";
+import { AxiosError } from "axios";
+import { toast } from "sonner";
+import { useDispatch } from "react-redux";
+import { userLogout } from "@/store/reducers/authReducer";
 
 export default function DashboardPage() {
   const router = useRouter();
+  const dispatch = useDispatch();
   const [recentQuizzes, setRecentQuizzes] = useState<IQuizzesTaken[]>([]);
   const [quizCount, setQuizCount] = useState<number>(0);
   const [correctPercentage, setCorrectPercentage] = useState<number>(0);
@@ -42,6 +47,15 @@ export default function DashboardPage() {
           }
         }
       } catch (error) {
+        if (error instanceof AxiosError) {
+          toast.error(error.response?.data.error);
+        }
+
+        if (error instanceof AxiosError && error.response?.status == 401) {
+          toast.warning("login again");
+          dispatch(userLogout());
+          router.push("/login");
+        }
         console.log("Error in getRecentQuizzes : ", error);
       }
     }

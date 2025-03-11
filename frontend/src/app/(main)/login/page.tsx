@@ -22,7 +22,7 @@ import { useDispatch } from "react-redux";
 import { axiosInstance } from "@/utils/axios";
 import { AxiosError } from "axios";
 import { toast } from "sonner";
-import { IUser } from "../types/IUser";
+import { IUser } from "../../types/IUser";
 import { userLogin } from "@/store/reducers/authReducer";
 import { motion } from "framer-motion";
 

@@ -162,7 +162,10 @@ export default function PlayQuizPage() {
           <div className="container mx-auto px-4 py-4 flex justify-between items-center">
             <div className="flex items-center gap-2">
               <Link href="/">
-                <div className="flex items-center gap-2">
+                <div
+                  className="flex items-center gap-2"
+                  onClick={() => router.push("/dashboard")}
+                >
                   <Brain className="h-8 w-8 text-primary" />
                   <h1 className="text-2xl font-bold">MindUp</h1>
                 </div>

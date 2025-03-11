@@ -20,7 +20,7 @@ import {
 } from "@/components/ui/card";
 import { EyeIcon, EyeOffIcon } from "lucide-react";
 import { axiosInstance } from "@/utils/axios";
-import { Response } from "../types/Response";
+import { Response } from "../../types/Response";
 import { AxiosError } from "axios";
 import { toast } from "sonner";
 
