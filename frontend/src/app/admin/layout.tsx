@@ -18,7 +18,7 @@ export default function RootLayout({
   const user = useSelector((state: RootState) => state.auth.user);
 
   useEffect(() => {
-    if (!Cookies.get("accessToken") && user?.role != "admin") {
+    if (!Cookies.get("accessToken") || user?.role != "admin") {
       router.push("/login");
     } else {
       setIsLoading(false);
